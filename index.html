@@ -44,18 +44,26 @@
             const linkPerfil = document.querySelector('#link-perfil')
 
 
+
+
             fetch('https://api.github.com/users/yuricpaiva')
             .then(function(res) {
-                return res.json()
-            }) 
-            .then(function(json) {
-                nome.innerText = json.name;
+                    if(!res.ok) {
+                        throw new Error (`Erro na requisição: ${res.status}`)
+                    }
+                    return res.json()
+                }) 
+            .then(function(json) {                    nome.innerText = json.name;
                 imagem.src = json.avatar_url;
                 seguindo.innerText = json.following;
                 seguidores.innerText = json.followers;
-                repositorios.innerText = json.public_repos;
+                repositorios.innerText = json.public_repos;                    
                 linkPerfil.href = json.html_url
             })
+            .catch(function (erro) {
+                console.log (`Ocorreu um erro: ${erro}`)
+            })
+
 
 
         })
